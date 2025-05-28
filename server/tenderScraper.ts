@@ -144,16 +144,16 @@ export class TenderScraper {
               title: tender.title,
               description: tender.description,
               organization: tender.organization,
-              categoryId: 1, // Default category, would map properly in production
+              category: tender.category, // Use the category from scraped data
               location: tender.location,
-              budget: tender.budget,
-              deadline: tender.deadline,
-              referenceNumber: tender.referenceNumber,
+              budgetEstimate: tender.budget,
+              deadline: tender.deadline.toISOString().split('T')[0], // Convert to string format
+              tenderNumber: tender.referenceNumber,
               requirements: tender.requirements,
-              contactInfo: tender.contactInfo,
+              contactEmail: tender.contactInfo,
               sourceUrl: tender.sourceUrl,
-              source: tender.source,
-              status: 'open'
+              scrapedFrom: tender.source,
+              status: 'active'
             };
             
             await storage.createTender(insertData);

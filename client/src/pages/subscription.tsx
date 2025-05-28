@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import PayPalButton from "@/components/PayPalButton";
+import { AdMobIntegration } from "@/components/AdMobIntegration";
 import { 
   Crown, 
   Gift, 
@@ -14,7 +15,9 @@ import {
   Users, 
   Copy, 
   CheckCircle,
-  ExternalLink
+  ExternalLink,
+  Smartphone,
+  Download
 } from "lucide-react";
 
 export default function Subscription() {
@@ -97,6 +100,53 @@ export default function Subscription() {
                 </div>
                 <div className="text-sm text-slate-600 dark:text-slate-300">Your Referral Code</div>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* AdMob Integration for Free Subscription */}
+        <div className="mb-8">
+          <AdMobIntegration />
+        </div>
+
+        {/* Mobile App Download */}
+        <Card className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-blue-200 dark:border-blue-700">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Smartphone className="h-6 w-6 text-blue-600" />
+              📱 Mobile App - Coming Soon!
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="text-center p-4 border rounded-lg bg-white dark:bg-slate-800">
+                <div className="text-3xl mb-2">🤖</div>
+                <h3 className="font-semibold mb-2">Android App</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-300 mb-3">
+                  Native Android app with offline tender access & push notifications
+                </p>
+                <Button disabled className="w-full">
+                  <Download className="h-4 w-4 mr-2" />
+                  Google Play Store
+                </Button>
+              </div>
+              <div className="text-center p-4 border rounded-lg bg-white dark:bg-slate-800">
+                <div className="text-3xl mb-2">🍎</div>
+                <h3 className="font-semibold mb-2">iOS App</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-300 mb-3">
+                  Native iOS app with seamless tender management & notifications
+                </p>
+                <Button disabled className="w-full">
+                  <Download className="h-4 w-4 mr-2" />
+                  App Store
+                </Button>
+              </div>
+            </div>
+            <div className="mt-4 p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                <strong>🇰🇪 Built for Kenya:</strong> Optimized for local networks, works offline, 
+                supports M-Pesa payments, and designed for Kenyan suppliers and contractors.
+              </p>
             </div>
           </CardContent>
         </Card>
