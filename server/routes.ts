@@ -96,6 +96,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // AdMob integration for free subscription through ads
+  app.get("/api/ads/status", isAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      // Calculate ad watch data
+      const today = new Date().toDateString();
+      const thisMonth = new Date().getMonth();
+      
+      // Mock data for now - in production this would track real ad watches
+      const dailyAdsWatched = 3; // Example: user watched 3 ads today
+      const monthlyAdsWatched = 45; // Example: user watched 45 ads this month
+      const freeSubscriptionDays = monthlyAdsWatched >= 300 ? 30 : 0;
+      
+      res.json({
+        dailyAdsWatched,
+        monthlyAdsWatched,
+        freeSubscriptionDays,
+        lastAdWatchDate: today,
+        canWatchAd: dailyAdsWatched < 10
+      });
+    } catch (error) {
+      console.error("Error fetching ad status:", error);
+      res.status(500).json({ message: "Failed to fetch ad status" });
+    }
+  });
+
+  app.post("/api/ads/watch", isAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      
+      // Award points for watching ad (10 points per ad)
+      await storage.addLoyaltyPoints(userId, 10);
+      
+      res.json({
+        success: true,
+        pointsEarned: 10,
+        message: "Ad completed successfully!",
+        freeSubscriptionMessage: "Keep watching to earn your free month!"
+      });
+    } catch (error) {
+      console.error("Error processing ad watch:", error);
+      res.status(500).json({ message: "Failed to process ad watch" });
+    }
+  });
+
   // Tender routes
   app.get('/api/tenders', async (req, res) => {
     try {
